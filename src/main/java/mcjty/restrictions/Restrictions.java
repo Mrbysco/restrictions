@@ -8,7 +8,6 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-
 @Mod(Restrictions.MODID)
 public class Restrictions {
 
@@ -22,6 +21,7 @@ public class Restrictions {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(setup::init);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientSetup::init);
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientSetup::registerLayerDefinitions);
         });
     }
 }

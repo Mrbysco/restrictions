@@ -57,11 +57,10 @@ if (System.getenv('BUILD_NUMBER') != null) {
     version += "-${System.getenv('BUILD_NUMBER')}"
 }
 
-sourceCompatibility = 16
-targetCompatibility = 16
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
-    mappings channel: 'official', version: "1.17.1"
+    mappings channel: 'official', version: "1.18.1"
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
@@ -110,27 +109,28 @@ sourceSets.main.resources {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    //if (findProject(':TheOneProbe') != null) {
-        //compile project(':TheOneProbe')
-    //} else {
-        //compile fg.deobf(project.dependencies.create("mcjty.theoneprobe:TheOneProbe-${top_version}") {
-            //transitive = false
-        //})
-    //}
-    //if (findProject(':McJtyLib') != null) {
-        //compile project(':McJtyLib')
-    //} else {
-        //compile fg.deobf (project.dependencies.create("com.github.mcjty:mcjtylib:${mcjtylib_version}") {
-            //transitive = false
-        //})
-    //}
-    //deobfCompile "mezz.jei:jei_${jei_version}"
-    //deobfCompile "mcp.mobius.waila:Hwyla:${waila_version}"
-    //deobfCompile "mcjty.theoneprobe:TheOneProbe-${top_version}"
-    //deobfCompile "cofh:RedstoneFlux:${redstoneflux_version}"
-    //deobfCompile "com.github.mcjty:intwheel:${intwheel_version}"
-    //deobfCompile "com.github.mcjty:mcjtylib:${mcjtylib_version}"
-    //compile "li.cil.oc:OpenComputers:${oc_version}"
+//    if (findProject(':TheOneProbe') != null) {
+//        compile project(':TheOneProbe')
+//    } else {
+//        compile fg.deobf(project.dependencies.create("mcjty.theoneprobe:TheOneProbe-${top_version}") {
+//            transitive = false
+//        })
+//    }
+    if (findProject(':McJtyLib') != null) {
+        implementation project(':McJtyLib')
+    } else {
+        implementation fg.deobf (project.dependencies.create("com.github.mcjty:mcjtylib:${mcjtylib_version}") {
+            transitive = false
+        })
+    }
+    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+//    deobfCompile "mcp.mobius.waila:Hwyla:${waila_version}"
+//    deobfCompile "mcjty.theoneprobe:TheOneProbe-${top_version}"
+//    deobfCompile "cofh:RedstoneFlux:${redstoneflux_version}"
+//    deobfCompile "com.github.mcjty:intwheel:${intwheel_version}"
+//    deobfCompile "com.github.mcjty:mcjtylib:${mcjtylib_version}"
+//    compile "li.cil.oc:OpenComputers:${oc_version}"
 }
 
 String getChangelogText() {
